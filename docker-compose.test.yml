@@ -1,0 +1,30 @@
+version: "3.9"
+
+name: "dnscrypt-proxy-test"
+
+services:
+
+  server:
+    image: localhost:5000/sut
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: athens -config_file=/etc/athens/config.toml
+
+  version:
+    image: localhost:5000/sut
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: athens -version
+
+  sut:
+    image: alpine:3.17
+    depends_on:
+      - server
+      - version
+    entrypoint: ""
+    command: >-
+      /bin/sh -c '
+      echo "Todo"
+      '
