@@ -1,0 +1,54 @@
+version: "3.9"
+
+name: "dnscrypt-proxy-test"
+
+services:
+
+  server:
+    image: localhost:5000/sut
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PACKAGE_NAME: athens
+        PACKAGE_VERSION: 0.11.0
+        PACKAGE_VERSION_PREFIX: "v"
+        PACKAGE_URL: https://github.com/gomods/athens
+        PACKAGE_SOURCE_URL: https://github.com/gomods/athens/archive/master.tar.gz
+        PACKAGE_HEAD_URL: https://github.com/gomods/athens.git
+        PACKAGE_HEAD: true
+        GO111MODULE: on
+        GOPROXY: https://proxy.golang.org,direct,direct
+        CGO_ENABLED: 0
+        BUILD_FLAGS: "-v"
+    command: athens -config_file=/etc/athens/config.toml
+
+  version:
+    image: localhost:5000/sut
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PACKAGE_NAME: athens
+        PACKAGE_VERSION: 0.11.0
+        PACKAGE_VERSION_PREFIX: "v"
+        PACKAGE_URL: https://github.com/gomods/athens
+        PACKAGE_SOURCE_URL: https://github.com/gomods/athens/archive/master.tar.gz
+        PACKAGE_HEAD_URL: https://github.com/gomods/athens.git
+        PACKAGE_HEAD: true
+        GO111MODULE: on
+        GOPROXY: https://proxy.golang.org,direct,direct
+        CGO_ENABLED: 0
+        BUILD_FLAGS: "-v"
+    command: athens -version
+
+  sut:
+    image: alpine:3.17
+    depends_on:
+      - server
+      - version
+    entrypoint: ""
+    command: >-
+      /bin/sh -c '
+      echo "Todo"
+      '
