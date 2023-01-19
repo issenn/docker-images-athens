@@ -120,9 +120,9 @@ RUN apk --no-cache add \
     mkdir -p /usr/local/go
 
 # TODO: switch to 'nonroot' user
-USER nobody
+# USER nobody
 
-EXPOSE 3000
+# EXPOSE 3000
 
 ENTRYPOINT [ "/sbin/tini", "--" ]
 
