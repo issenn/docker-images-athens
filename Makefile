@@ -2,6 +2,8 @@
 # make        # compile all binary
 # make clean  # remove ALL binaries and objects
 
+AUTHOR                     ?= issenn
+
 PACKAGE_NAME               ?= athens
 # PACKAGE_VERSION            ?= 0.11.0
 PACKAGE_VERSION_PREFIX     ?= v
@@ -12,14 +14,19 @@ PACKAGE_HEAD               ?= false
 
 # Golang
 GO111MODULE                ?= on
-GOPROXY                    ?= http://10.0.0.102:3000,https://goproxy.cn,https://proxy.golang.com.cn,https://mirrors.aliyun.com/goproxy/,gosum.io+ce6e7565+AY5qEHUk/qmHc5btzW45JVoENfazw8LielDsaI+lEbq6,direct
+GOPROXY                    ?= https://goproxy.cn,https://proxy.golang.com.cn,https://mirrors.aliyun.com/goproxy/,direct
 GOSUMDB                    ?= off
+GOPROXY_PRIVATE            ?= false
 CGO_ENABLED                ?= 0
 BUILD_FLAGS                ?= -v
 BUILDPLATFORM              ?= linux/amd64
 TARGETOS                   ?= linux
 TARGETARCH                 ?= amd64
 TARGETVARIANT              ?=
+
+ifeq ($(GOPROXY_PRIVATE), true)
+    GOPROXY                := http://10.0.0.102:3000
+endif
 
 VERSION                    ?= $(PACKAGE_VERSION)
 # https://docs.brew.sh/Cask-Cookbook
@@ -37,8 +44,8 @@ VERSION_MAJOR_MINOR        := $(VERSION_MAJOR).$(VERSION_MINOR)
 DOCKER_VERSION             := $(shell docker --version)
 
 # DOCKER_REGISTRY            ?= quay.io
-IMAGE_NAME                 := athens
-IMAGE_PREFIX               ?= issenn
+IMAGE_NAME                 := $(PACKAGE_NAME)
+IMAGE_PREFIX               ?= $(AUTHOR)
 IMAGE_TAG                  ?= latest
 
 ifdef DOCKER_REGISTRY

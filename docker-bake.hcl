@@ -31,7 +31,7 @@ variable "GOPROXY" {
 }
 
 variable "GOPROXY_CN" {
-  default = "http://10.0.0.102:3000,https://goproxy.cn,https://proxy.golang.com.cn,https://mirrors.aliyun.com/goproxy/,gosum.io+ce6e7565+AY5qEHUk/qmHc5btzW45JVoENfazw8LielDsaI+lEbq6,direct"
+  default = "http://10.0.0.102:3000,https://goproxy.cn,https://proxy.golang.com.cn,https://mirrors.aliyun.com/goproxy/,direct"
 }
 
 variable "GOSUMDB" {
@@ -40,6 +40,7 @@ variable "GOSUMDB" {
 
 variable "GOSUMDB_CN" {
   default = "sum.golang.google.cn"
+  // default = "gosum.io+ce6e7565+AY5qEHUk/qmHc5btzW45JVoENfazw8LielDsaI+lEbq6"
 }
 
 variable "CGO_ENABLED" {
