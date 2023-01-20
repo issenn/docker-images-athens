@@ -31,7 +31,15 @@ variable "GOPROXY" {
 }
 
 variable "GOPROXY_CN" {
-  default = "https://goproxy.cn,https://proxy.golang.com.cn,https://mirrors.aliyun.com/goproxy/,https://athens.azurefd.net,direct"
+  default = "http://10.0.0.102:3000,https://goproxy.cn,https://proxy.golang.com.cn,https://mirrors.aliyun.com/goproxy/,gosum.io+ce6e7565+AY5qEHUk/qmHc5btzW45JVoENfazw8LielDsaI+lEbq6,direct"
+}
+
+variable "GOSUMDB" {
+  default = "sum.golang.org"
+}
+
+variable "GOSUMDB_CN" {
+  default = "sum.golang.google.cn"
 }
 
 variable "CGO_ENABLED" {
@@ -74,6 +82,7 @@ target "main" {
     PACKAGE_HEAD = true
     GO111MODULE = GO111MODULE
     GOPROXY = GOPROXY
+    GOSUMDB = GOSUMDB
     CGO_ENABLED = CGO_ENABLED
     BUILD_FLAGS = BUILD_FLAGS
   }

@@ -12,7 +12,8 @@ PACKAGE_HEAD               ?= false
 
 # Golang
 GO111MODULE                ?= on
-GOPROXY                    ?= https://goproxy.cn,https://proxy.golang.com.cn,https://mirrors.aliyun.com/goproxy/,https://athens.azurefd.net,direct
+GOPROXY                    ?= http://10.0.0.102:3000,https://goproxy.cn,https://proxy.golang.com.cn,https://mirrors.aliyun.com/goproxy/,gosum.io+ce6e7565+AY5qEHUk/qmHc5btzW45JVoENfazw8LielDsaI+lEbq6,direct
+GOSUMDB                    ?= off
 CGO_ENABLED                ?= 0
 BUILD_FLAGS                ?= -v
 BUILDPLATFORM              ?= linux/amd64
@@ -80,6 +81,7 @@ build:
 	            --label $(LABEL) \
 	            --build-arg GO111MODULE="${GO111MODULE}" \
 	            --build-arg GOPROXY="${GOPROXY}" \
+	            --build-arg GOSUMDB="${GOSUMDB}" \
 	            --build-arg CGO_ENABLED="${CGO_ENABLED}" \
 	            --build-arg BUILD_FLAGS="${BUILD_FLAGS}" \
 	            --build-arg PACKAGE_NAME="$(PACKAGE_NAME)" \
@@ -102,6 +104,7 @@ build:
 	            --label $(LABEL) \
 	            --build-arg GO111MODULE="${GO111MODULE}" \
 	            --build-arg GOPROXY="${GOPROXY}" \
+	            --build-arg GOSUMDB="${GOSUMDB}" \
 	            --build-arg CGO_ENABLED="${CGO_ENABLED}" \
 	            --build-arg BUILD_FLAGS="${BUILD_FLAGS}" \
 	            --build-arg PACKAGE_NAME="$(PACKAGE_NAME)" \
