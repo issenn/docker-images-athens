@@ -10,8 +10,12 @@ variable "BUILDKIT_PROGRESS" {
   default = "auto"
 }
 
+variable "CACHEBUST" {
+  default = 0
+}
+
 variable "PACKAGE_VERSION" {
-  default = "0.0.0"
+  default = ""
 }
 
 variable "PACKAGE_VERSION_PREFIX" {
@@ -75,12 +79,13 @@ target "main" {
   ]
   args = {
     PACKAGE_NAME = "athens"
-    PACKAGE_VERSION = "0.11.0"
+    PACKAGE_VERSION = PACKAGE_VERSION
     PACKAGE_VERSION_PREFIX = "v"
     PACKAGE_URL = "https://github.com/gomods/athens"
     PACKAGE_SOURCE_URL = "https://github.com/gomods/athens/archive/master.tar.gz"
     PACKAGE_HEAD_URL = "https://github.com/gomods/athens.git"
     PACKAGE_HEAD = true
+    CACHEBUST = "https://api.github.com/repos/issenn/docker-images-athens/git/refs/heads/master"
     GO111MODULE = GO111MODULE
     GOPROXY = GOPROXY
     GOSUMDB = GOSUMDB

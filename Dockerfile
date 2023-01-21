@@ -4,17 +4,24 @@ ARG BUILDPLATFORM="linux/amd64"
 
 FROM --platform=${BUILDPLATFORM} alpine:3.17 AS prepare
 
+ARG CACHEBUST
+
+# hadolint ignore=DL3020
+ADD ${CACHEBUST} /.git-hashref
+
 SHELL ["/bin/ash", "-eufo", "pipefail", "-c"]
 
 RUN apk --no-cache add \
     curl=~7.87.0 \
     # sed=~4.9 \
     git=~2.38 \
+    # tzdata=~2022f \
     # go=~1.19.5 \
     # bash=~5.2.15 \
     ca-certificates=~20220614 && \
     sync
 
+ARG GIT_REF
 ARG PACKAGE_NAME
 ARG PACKAGE_VERSION
 ARG PACKAGE_VERSION_PREFIX
@@ -24,7 +31,8 @@ ARG PACKAGE_HEAD_URL
 ARG PACKAGE_HEAD=false
 
 # hadolint ignore=SC2015
-RUN { [ -n "${PACKAGE_VERSION_PREFIX}" ] && PACKAGE_VERSION="${PACKAGE_VERSION_PREFIX}${PACKAGE_VERSION}" || true; } && mkdir -p "/usr/local/src/${PACKAGE_NAME}" && \
+RUN { [ -n "${PACKAGE_VERSION_PREFIX}" ] && [ -n "${PACKAGE_VERSION}" ] && PACKAGE_VERSION="${PACKAGE_VERSION_PREFIX}${PACKAGE_VERSION}" || true; } && \
+    mkdir -p "/usr/local/src/${PACKAGE_NAME}" && \
     [ -n "${PACKAGE_NAME}" ] && \
     { { [ -n "${PACKAGE_HEAD_URL}" ] && \
         git clone "${PACKAGE_HEAD_URL}" "/usr/local/src/${PACKAGE_NAME}" && \
@@ -44,10 +52,16 @@ RUN { [ -n "${PACKAGE_VERSION_PREFIX}" ] && PACKAGE_VERSION="${PACKAGE_VERSION_P
 
 FROM --platform=${BUILDPLATFORM} golang:1.19.5-alpine3.17 AS build
 
+ARG CACHEBUST
+
+# hadolint ignore=DL3020
+ADD ${CACHEBUST} /.git-hashref
+
 RUN apk --no-cache add \
     # curl=~7.87.0 \
     # sed=~4.9 \
     git=~2.38 \
+    # tzdata=~2022f \
     # go=~1.19.5 \
     # bash=~5.2.15 \
     ca-certificates=~20220614 && \
@@ -74,6 +88,7 @@ ENV GOOS=${TARGETOS} \
 
 COPY --from=prepare /etc/passwd /etc/group /etc/
 COPY --from=prepare /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+# COPY --from=prepare /usr/share/zoneinfo /usr/share/zoneinfo
 
 COPY --from=prepare --chown=nonroot:nonroot /usr/local/src /usr/local/src
 
@@ -100,10 +115,16 @@ RUN chmod 644 /etc/${PACKAGE_NAME}/config.toml /etc/${PACKAGE_NAME}/config.dev.t
 
 FROM --platform=${BUILDPLATFORM} alpine:3.17
 
+ARG CACHEBUST
+
+# hadolint ignore=DL3020
+ADD ${CACHEBUST} /.git-hashref
+
 ARG PACKAGE_NAME
 
 COPY --from=build /etc/passwd /etc/group /etc/
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+# COPY --from=build /usr/share/zoneinfo /usr/share/zoneinfo
 
 COPY --from=build /usr/local/src/${PACKAGE_NAME}/${PACKAGE_NAME} /usr/local/bin/
 COPY --from=build --chown=nobody:nogroup /etc/${PACKAGE_NAME} /etc/${PACKAGE_NAME}

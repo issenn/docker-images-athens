@@ -17,8 +17,9 @@ services:
         PACKAGE_SOURCE_URL: https://github.com/gomods/athens/archive/master.tar.gz
         PACKAGE_HEAD_URL: https://github.com/gomods/athens.git
         PACKAGE_HEAD: true
+        CACHEBUST: https://api.github.com/repos/issenn/docker-images-athens/git/refs/heads/master
         GO111MODULE: on
-        GOPROXY: https://proxy.golang.org,direct,direct
+        GOPROXY: https://proxy.golang.org,direct
         CGO_ENABLED: 0
         BUILD_FLAGS: "-v"
     command: athens -config_file=/etc/athens/config.toml
@@ -36,8 +37,9 @@ services:
         PACKAGE_SOURCE_URL: https://github.com/gomods/athens/archive/master.tar.gz
         PACKAGE_HEAD_URL: https://github.com/gomods/athens.git
         PACKAGE_HEAD: true
+        CACHEBUST: https://api.github.com/repos/issenn/docker-images-athens/git/refs/heads/master
         GO111MODULE: on
-        GOPROXY: https://proxy.golang.org,direct,direct
+        GOPROXY: https://proxy.golang.org,direct
         CGO_ENABLED: 0
         BUILD_FLAGS: "-v"
     command: athens -version
