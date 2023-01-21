@@ -10,8 +10,12 @@ variable "BUILDKIT_PROGRESS" {
   default = "auto"
 }
 
+variable "CACHEBUST" {
+  default = 0
+}
+
 variable "PACKAGE_VERSION" {
-  default = "0.0.0"
+  default = ""
 }
 
 variable "PACKAGE_VERSION_PREFIX" {
@@ -31,7 +35,7 @@ variable "GOPROXY" {
 }
 
 variable "GOPROXY_CN" {
-  default = "http://10.0.0.102:3000,https://goproxy.cn,https://proxy.golang.com.cn,https://mirrors.aliyun.com/goproxy/,gosum.io+ce6e7565+AY5qEHUk/qmHc5btzW45JVoENfazw8LielDsaI+lEbq6,direct"
+  default = "http://10.0.0.102:3000,https://goproxy.cn,https://proxy.golang.com.cn,https://mirrors.aliyun.com/goproxy/,direct"
 }
 
 variable "GOSUMDB" {
@@ -40,6 +44,7 @@ variable "GOSUMDB" {
 
 variable "GOSUMDB_CN" {
   default = "sum.golang.google.cn"
+  // default = "gosum.io+ce6e7565+AY5qEHUk/qmHc5btzW45JVoENfazw8LielDsaI+lEbq6"
 }
 
 variable "CGO_ENABLED" {
@@ -74,12 +79,13 @@ target "main" {
   ]
   args = {
     PACKAGE_NAME = "athens"
-    PACKAGE_VERSION = "0.11.0"
+    PACKAGE_VERSION = PACKAGE_VERSION
     PACKAGE_VERSION_PREFIX = "v"
     PACKAGE_URL = "https://github.com/gomods/athens"
     PACKAGE_SOURCE_URL = "https://github.com/gomods/athens/archive/master.tar.gz"
     PACKAGE_HEAD_URL = "https://github.com/gomods/athens.git"
     PACKAGE_HEAD = true
+    CACHEBUST = "https://api.github.com/repos/issenn/docker-images-athens/git/refs/heads/master"
     GO111MODULE = GO111MODULE
     GOPROXY = GOPROXY
     GOSUMDB = GOSUMDB
