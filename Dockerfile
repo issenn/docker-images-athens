@@ -50,7 +50,7 @@ RUN { [ -n "${PACKAGE_VERSION_PREFIX}" ] && [ -n "${PACKAGE_VERSION}" ] && PACKA
 
 # ----------------------------------------------------------------------------
 
-FROM --platform=${BUILDPLATFORM} golang:1.19.5-alpine3.17 AS build
+FROM --platform=${BUILDPLATFORM} golang:1.21.5-alpine3.17 AS build
 
 ARG CACHEBUST
 
