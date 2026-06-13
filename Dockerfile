@@ -2,7 +2,7 @@
 
 ARG BUILDPLATFORM="linux/amd64"
 
-FROM --platform=${BUILDPLATFORM} alpine:3.17 AS prepare
+FROM --platform=${BUILDPLATFORM} alpine:3.24 AS prepare
 
 ARG CACHEBUST
 
@@ -113,7 +113,7 @@ RUN chmod 644 /etc/${PACKAGE_NAME}/config.toml /etc/${PACKAGE_NAME}/config.dev.t
 
 # ----------------------------------------------------------------------------
 
-FROM --platform=${BUILDPLATFORM} alpine:3.17
+FROM --platform=${BUILDPLATFORM} alpine:3.24
 
 ARG CACHEBUST
 
